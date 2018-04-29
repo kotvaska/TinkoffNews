@@ -5,5 +5,18 @@
 
 import UIKit
 
-class NewsDetailViewController: UIViewController {
+class NewsDetailViewController: BaseController<NewsDetailPresenter>, NewsDetailView {
+
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    required init(id: Int) {
+        super.init(nibName: "NewsDetailViewController", bundle: nil)
+
+        setView(baseView: self)
+        setPresenter(presenter: NewsDetailPresenter(view: self, newsInteractor: getInteractorManager().newNewsInteractor(), id: id))
+
+    }
 }

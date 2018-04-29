@@ -5,9 +5,25 @@
 
 import UIKit
 
-class NewsListViewController: UIViewController {
+class NewsListViewController: BaseController<NewsListPresenter>, NewsListView {
 
     @IBOutlet weak var tableView: UITableView!
-e
 
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    required init() {
+        super.init(nibName: "NewsListViewController", bundle: nil)
+
+        setView(baseView: self)
+        setPresenter(presenter: NewsListPresenter(view: self, newInteractor: getInteractorManager().newNewsInteractor()))
+
+    }
+
+    override func loadView() {
+        super.loadView()
+
+
+    }
 }
