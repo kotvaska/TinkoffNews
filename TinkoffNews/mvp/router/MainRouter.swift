@@ -18,10 +18,7 @@ class MainRouter: Routing {
     let newsListViewController: NewsListViewController
     var newsDetailViewController: NewsDetailViewController!
 
-    unowned let dataObserver: NewsObserver
-
-    init(dataObserver: NewsObserver) {
-        self.dataObserver = dataObserver
+    init() {
         newsListViewController = NewsListViewController()
         navigationController = UINavigationController(rootViewController: newsListViewController)
     }

@@ -44,6 +44,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateLabel" destination="Dvt-VP-KYU" id="DUO-Gr-ifb"/>
+                <outlet property="titleLabel" destination="01q-6Q-PiO" id="YEC-AZ-sHK"/>
             </connections>
             <point key="canvasLocation" x="42.5" y="-319"/>
         </tableViewCell>

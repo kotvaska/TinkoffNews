@@ -16,17 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var appConfiguration: AppConfiguration!
     var interactorManager: InteractorManager!
-    var dataStore: NewsDataStore!
-    var dataObserver: NewsObserver!
     var mainRouter: MainRouter!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         appConfiguration = AppConfiguration()
-        dataStore = NewsDataStore()
-        interactorManager = InteractorManager(appConfiguration: appConfiguration, dataStore: dataStore)
-        dataObserver = NewsObserver(dataStore: dataStore)
-        mainRouter = MainRouter(dataObserver: dataObserver)
+        interactorManager = InteractorManager(appConfiguration: appConfiguration)
+        mainRouter = MainRouter()
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = mainRouter.navigationController

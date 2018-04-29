@@ -6,4 +6,9 @@
 import Foundation
 
 protocol NewsListView: BaseView {
+
+    func hideRefreshLoader()
+
+    func updateDataSource(news: [News])
+
 }

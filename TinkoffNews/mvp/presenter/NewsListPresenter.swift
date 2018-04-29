@@ -12,6 +12,7 @@ class NewsListPresenter: BasePresenter {
     var controllerTitle: String = "Новости"
 
     private var newInteractor: NewsInteractor!
+    private var news: [News] = []
 
     required init(view: V) {
         self.view = view
@@ -23,7 +24,31 @@ class NewsListPresenter: BasePresenter {
     }
 
     func viewDidLoad() {
-        newInteractor.getNewsList()
+        view.startLoading()
+        loadData() {
+            self.view.finishLoading()
+        }
+    }
+
+    private func loadData(completion: @escaping () -> ()) {
+        newInteractor.getNewsList() { [weak self] response, error in
+            guard let strongSelf = self else {
+                return
+            }
+            guard let response = response, error == nil else {
+                strongSelf.view.alertError(message: error!.localizedDescription)
+                return
+            }
+            strongSelf.news = response.news
+            strongSelf.view.updateDataSource(news: response.news)
+            completion()
+        }
+    }
+
+    func refresh() {
+        loadData() {
+            self.view.hideRefreshLoader()
+        }
     }
 
 }

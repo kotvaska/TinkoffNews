@@ -40,4 +40,8 @@ struct News: Codable {
 
 struct PublicationDate: Codable {
     let milliseconds: TimeInterval
+
+    var seconds: TimeInterval {
+        return milliseconds / 1000
+    }
 }

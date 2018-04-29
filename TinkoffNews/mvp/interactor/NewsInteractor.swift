@@ -7,49 +7,50 @@ import Foundation
 
 class NewsInteractor {
 
-    private unowned let dataStore: DataStoreUpdating
     private let networkClient: NetworkClient
     private let dbClient: DbClient
     private let modelSerializer: ModelSerializer
 
-    typealias Completion = (Error?) -> ()
+    typealias Completion<Response: Codable> = (Response?, Error?) -> ()
 
-    init(dataStore: DataStoreUpdating, networkClient: NetworkClient, dbClient: DbClient, modelSerializer: ModelSerializer) {
-        self.dataStore = dataStore
+    init(networkClient: NetworkClient, dbClient: DbClient, modelSerializer: ModelSerializer) {
         self.networkClient = networkClient
         self.dbClient = dbClient
         self.modelSerializer = modelSerializer
     }
 
-    func getNewsList(completion: Completion? = nil) {
+    func getNewsList(completion: Completion<NewsListResponse>? = nil) {
+        // TODO: check cache
         networkClient.updateNewsList() { [weak self] payload, error in
             guard let strongSelf = self,
                   error == nil,
                   let payload = payload?.payload,
                   let response: NewsListResponse = strongSelf.modelSerializer.deserializeToStruct(fromData: payload) else {
-                completion?(error)
+                completion?(nil, error)
                 return
             }
 
+            // TODO: Save content
             DispatchQueue.main.async {
-                strongSelf.dataStore.update(news: response.news)
-                completion?(nil)
+                completion?(response, nil)
             }
         }
     }
 
-    func getDetailNews(id: Int, completion: Completion? = nil) {
+    func getDetailNews(id: Int, completion: Completion<NewsDetailResponse>? = nil) {
+        // TODO: check cache
         networkClient.updateDetailNews(id: id) { [weak self] payload, error in
             guard let strongSelf = self,
                   error == nil,
                   let payload = payload?.payload,
                   let response: NewsDetailResponse = strongSelf.modelSerializer.deserializeToStruct(fromData: payload) else {
-                completion?(error)
+                completion?(nil, error)
                 return
             }
+
+            // TODO: Save/update content
             DispatchQueue.main.async {
-                strongSelf.dataStore.update(detailNews: response.news)
-                completion?(nil)
+                completion?(response, nil)
             }
         }
     }
