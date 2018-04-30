@@ -14,7 +14,15 @@ class InteractorManager {
     }
 
     func newNewsInteractor() -> NewsInteractor {
-        return NewsInteractor(networkClient: appConfiguration.networkClient, dbClient: appConfiguration.dbClient, modelSerializer: appConfiguration.modelSerializer)
+        return NewsInteractor(networkClient: appConfiguration.networkClient, modelSerializer: appConfiguration.modelSerializer)
+    }
+
+    func newDatabaseInteractor() -> DatabaseInteractor {
+        return DatabaseInteractor(dbClient: appConfiguration.dbClient)
+    }
+
+    func newNewsFacade() -> NewsFacade {
+        return NewsFacade(newsInteractor: newNewsInteractor(), databaseInteractor: newDatabaseInteractor())
     }
 
 }

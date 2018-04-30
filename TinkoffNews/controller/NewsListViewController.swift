@@ -28,7 +28,7 @@ class NewsListViewController: BaseController<NewsListPresenter>, NewsListView {
         super.init(nibName: "NewsListViewController", bundle: nil)
 
         setView(baseView: self)
-        setPresenter(presenter: NewsListPresenter(view: self, newsInteractor: getInteractorManager().newNewsInteractor()))
+        setPresenter(presenter: NewsListPresenter(view: self, newsFacade: getInteractorManager().newNewsFacade()))
 
         dataSource = NewsListDataSource()
         delegate = NewsListDelegate(selectDelegate: presenter)

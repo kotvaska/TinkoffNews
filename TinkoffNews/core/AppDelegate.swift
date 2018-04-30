@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        appConfiguration = AppConfiguration()
+        appConfiguration = AppConfiguration(appDelegate: self)
         interactorManager = InteractorManager(appConfiguration: appConfiguration)
         mainRouter = MainRouter()
 

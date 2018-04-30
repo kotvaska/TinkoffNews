@@ -8,19 +8,14 @@ import Foundation
 class NewsInteractor {
 
     private let networkClient: NetworkClient
-    private let dbClient: DbClient
     private let modelSerializer: ModelSerializer
 
-    typealias Completion<Response: Codable> = (Response?, Error?) -> ()
-
-    init(networkClient: NetworkClient, dbClient: DbClient, modelSerializer: ModelSerializer) {
+    init(networkClient: NetworkClient, modelSerializer: ModelSerializer) {
         self.networkClient = networkClient
-        self.dbClient = dbClient
         self.modelSerializer = modelSerializer
     }
 
     func getNewsList(completion: Completion<NewsListResponse>? = nil) {
-        // TODO: check cache
         networkClient.updateNewsList() { [weak self] payload, error in
             guard let strongSelf = self,
                   error == nil,
@@ -30,7 +25,6 @@ class NewsInteractor {
                 return
             }
 
-            // TODO: Save content
             DispatchQueue.main.async {
                 completion?(response, nil)
             }
@@ -38,7 +32,6 @@ class NewsInteractor {
     }
 
     func getDetailNews(id: String, completion: Completion<NewsDetailResponse>? = nil) {
-        // TODO: check cache
         networkClient.updateDetailNews(id: id) { [weak self] payload, error in
             guard let strongSelf = self,
                   error == nil,
@@ -48,7 +41,6 @@ class NewsInteractor {
                 return
             }
 
-            // TODO: Save/update content
             DispatchQueue.main.async {
                 completion?(response, nil)
             }

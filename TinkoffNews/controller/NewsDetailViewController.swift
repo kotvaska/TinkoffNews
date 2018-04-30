@@ -17,7 +17,7 @@ class NewsDetailViewController: BaseController<NewsDetailPresenter>, NewsDetailV
         super.init(nibName: "NewsDetailViewController", bundle: nil)
 
         setView(baseView: self)
-        setPresenter(presenter: NewsDetailPresenter(view: self, newsInteractor: getInteractorManager().newNewsInteractor(), id: id))
+        setPresenter(presenter: NewsDetailPresenter(view: self, newsFacade: getInteractorManager().newNewsFacade(), id: id))
 
     }
 

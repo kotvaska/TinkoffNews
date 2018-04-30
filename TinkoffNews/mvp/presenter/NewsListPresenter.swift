@@ -11,16 +11,16 @@ class NewsListPresenter: BasePresenter {
     var view: V!
     var controllerTitle: String = "Новости"
 
-    private var newsInteractor: NewsInteractor!
+    private var newsFacade: NewsFacade!
     private var news: [News] = []
 
     required init(view: V) {
         self.view = view
     }
 
-    convenience init(view: NewsListView, newsInteractor: NewsInteractor) {
+    convenience init(view: NewsListView, newsFacade: NewsFacade) {
         self.init(view: view)
-        self.newsInteractor = newsInteractor
+        self.newsFacade = newsFacade
     }
 
     func viewDidLoad() {
@@ -31,16 +31,15 @@ class NewsListPresenter: BasePresenter {
     }
 
     private func loadData(completion: @escaping () -> ()) {
-        newsInteractor.getNewsList() { [weak self] response, error in
+        newsFacade.getNewsList() { [weak self] models, error in
             guard let strongSelf = self else {
                 return
             }
-            guard let response = response, error == nil else {
+            guard let models = models, error == nil else {
                 strongSelf.view.alertError(message: error!.localizedDescription)
                 return
             }
-            strongSelf.news = response.news
-            strongSelf.view.updateDataSource(news: response.news)
+            strongSelf.view.updateDataSource(news: models)
             completion()
         }
     }

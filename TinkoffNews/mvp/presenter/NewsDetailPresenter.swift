@@ -12,31 +12,31 @@ class NewsDetailPresenter: BasePresenter {
     var controllerTitle: String = "Описание новости"
 
     private var id: String!
-    private var newsInteractor: NewsInteractor!
+    private var newsFacade: NewsFacade!
 
     required init(view: NewsDetailView) {
         self.view = view
     }
 
-    convenience init(view: NewsDetailView, newsInteractor: NewsInteractor, id: String) {
+    convenience init(view: NewsDetailView, newsFacade: NewsFacade, id: String) {
         self.init(view: view)
-        self.newsInteractor = newsInteractor
+        self.newsFacade = newsFacade
         self.id = id
     }
 
     func viewDidLoad() {
         view.startLoading()
 
-        newsInteractor.getDetailNews(id: id) { [weak self] response, error in
+        newsFacade.getDetailNews(id: id) { [weak self] model, error in
             guard let strongSelf = self else {
                 return
             }
-            guard let response = response, error == nil else {
+            guard let model = model, error == nil else {
                 strongSelf.view.alertError(message: error!.localizedDescription)
                 return
             }
 
-            strongSelf.view.setLabelContent(content: response.news.content?.htmlToAttributedString)
+            strongSelf.view.setLabelContent(content: model.content?.htmlToAttributedString)
             strongSelf.view.finishLoading()
         }
     }

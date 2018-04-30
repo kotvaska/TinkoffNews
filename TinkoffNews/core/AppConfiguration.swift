@@ -13,10 +13,10 @@ class AppConfiguration {
     let dbClient: DbClient
     let alertBuilder: AlertBuilder
 
-    init() {
+    init(appDelegate: AppDelegate) {
         alertBuilder = AlertBuilder()
         modelSerializer = ModelSerializer()
-        dbClient = DbClient()
+        dbClient = DbClient(appDelegate: appDelegate)
 
         let baseUrl = "https://api.tinkoff.ru/v1"
         urlBuilder = UrlBuilder(baseUrl: baseUrl)
