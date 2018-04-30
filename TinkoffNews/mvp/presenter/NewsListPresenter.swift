@@ -39,6 +39,7 @@ class NewsListPresenter: BasePresenter {
                 strongSelf.view.alertError(message: error!.localizedDescription)
                 return
             }
+            strongSelf.news = models
             strongSelf.view.updateDataSource(news: models)
             completion()
         }

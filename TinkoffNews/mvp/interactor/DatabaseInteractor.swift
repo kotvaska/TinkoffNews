@@ -33,14 +33,9 @@ class DatabaseInteractor {
     }
 
     func getDetailNews(id: String, completion: Completion<News>? = nil) {
-        dbClient.fetchList(tableName: NewsEntityMapped.tableName) { entites, error in
-            guard error == nil else {
+        dbClient.fetchItem(tableName: NewsEntityMapped.tableName, id: id) { entity, error in
+            guard let entity = entity, error == nil else {
                 completion?(nil, error)
-                return
-            }
-
-            guard let entity = entites.filter({ ($0.value(forKey: NewsEntityMapped.idFieldName) as? String) == id }).first else {
-                completion?(nil, DbError(title: "Ошибка чтения данных", message: "Произошла ошибка чтения данных. Повторите попытку позже"))
                 return
             }
 
@@ -48,7 +43,7 @@ class DatabaseInteractor {
                     name: "",
                     text: entity.value(forKey: NewsEntityMapped.textFieldName) as! String,
                     publicationDate: PublicationDate(milliseconds: entity.value(forKey: NewsEntityMapped.publicationMillisecondsFieldName) as! TimeInterval),
-                    content: entity.value(forKey: NewsEntityMapped.contentFieldName) as! String)
+                    content: (entity.value(forKey: NewsEntityMapped.contentFieldName) as? String) ?? "")
             completion?(news, nil)
         }
     }

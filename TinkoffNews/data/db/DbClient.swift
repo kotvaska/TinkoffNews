@@ -39,7 +39,7 @@ class DbClient {
     func update(tableName: String, news: News, completion: @escaping (Error?) -> ()) {
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: tableName)
-        fetchRequest.predicate = NSPredicate(format: "\(NewsEntityMapped.idFieldName) = ?", argumentArray: [news.id])
+        fetchRequest.predicate = NSPredicate(format: "\(NewsEntityMapped.idFieldName) like %@", argumentArray: [news.id])
 
         do {
             let newsObject = try managedContext.fetch(fetchRequest).first!
@@ -69,7 +69,7 @@ class DbClient {
     func fetchItem(tableName: String, id: String, completion: @escaping (NSManagedObject?, Error?) -> ()) {
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: tableName)
-        fetchRequest.predicate = NSPredicate(format: "\(NewsEntityMapped.idFieldName) = ?", argumentArray: [id])
+        fetchRequest.predicate = NSPredicate(format: "\(NewsEntityMapped.idFieldName) like %@", argumentArray: [id])
         fetchRequest.fetchLimit = 1
 
         do {

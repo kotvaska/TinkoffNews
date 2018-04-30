@@ -44,7 +44,7 @@ class NewsFacade {
                 completion?(nil, error)
                 return
             }
-            guard let news = news, error == nil else {
+            guard let news = news, let content = news.content, !content.isEmpty, error == nil else {
                 strongSelf.newsInteractor.getDetailNews(id: id) { response, error in
                     strongSelf.databaseInteractor.update(news: response?.news ?? News(), completion: nil)
                     completion?(response?.news, error)
