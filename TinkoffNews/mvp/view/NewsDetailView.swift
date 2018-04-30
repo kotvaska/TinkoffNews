@@ -6,4 +6,7 @@
 import Foundation
 
 protocol NewsDetailView: BaseView {
+
+    func setLabelContent(content: NSAttributedString?)
+
 }

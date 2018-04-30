@@ -11,4 +11,6 @@ protocol NewsListView: BaseView {
 
     func updateDataSource(news: [News])
 
+    func openDetailNews(id: String)
+
 }

@@ -28,10 +28,10 @@ class NewsListViewController: BaseController<NewsListPresenter>, NewsListView {
         super.init(nibName: "NewsListViewController", bundle: nil)
 
         setView(baseView: self)
-        setPresenter(presenter: NewsListPresenter(view: self, newInteractor: getInteractorManager().newNewsInteractor()))
+        setPresenter(presenter: NewsListPresenter(view: self, newsInteractor: getInteractorManager().newNewsInteractor()))
 
         dataSource = NewsListDataSource()
-        delegate = NewsListDelegate()
+        delegate = NewsListDelegate(selectDelegate: presenter)
     }
 
     override func loadView() {
@@ -60,6 +60,10 @@ class NewsListViewController: BaseController<NewsListPresenter>, NewsListView {
     func updateDataSource(news: [News]) {
         dataSource.news = news
         tableView.reloadData()
+    }
+
+    func openDetailNews(id: String) {
+        getMainRouter().showNewsDetailViewController(id: id)
     }
 
 }

@@ -18,7 +18,7 @@ struct News: Codable {
     let name: String
     let text: String
     let publicationDate: PublicationDate
-    let content: String?
+    var content: String?
 
     init(id: String, name: String, text: String, publicationDate: PublicationDate, content: String) {
         self.id = id

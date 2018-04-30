@@ -7,7 +7,7 @@ import Foundation
 import UIKit
 
 protocol Routing: class {
-    func showNewsDetailViewController(id: Int)
+    func showNewsDetailViewController(id: String)
     func dismissNewsDetailViewController()
 }
 
@@ -23,7 +23,7 @@ class MainRouter: Routing {
         navigationController = UINavigationController(rootViewController: newsListViewController)
     }
 
-    func showNewsDetailViewController(id: Int) {
+    func showNewsDetailViewController(id: String) {
         newsDetailViewController = NewsDetailViewController(id: id)
         navigationController.pushViewController(newsDetailViewController, animated: true)
     }

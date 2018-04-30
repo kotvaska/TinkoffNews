@@ -29,8 +29,8 @@ class NetworkClient {
         webService.load(resource: getPayload(url: urlBuilder.newsList()), completion: completion)
     }
 
-    func updateDetailNews(id: Int, completion: @escaping (BaseResponse?, Error?) -> ()) {
-        webService.load(resource: getPayload(url: urlBuilder.newsDetail(id: String(id))), completion: completion)
+    func updateDetailNews(id: String, completion: @escaping (BaseResponse?, Error?) -> ()) {
+        webService.load(resource: getPayload(url: urlBuilder.newsDetail(id: id)), completion: completion)
     }
 
 }

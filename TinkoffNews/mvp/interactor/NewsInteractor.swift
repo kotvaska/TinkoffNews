@@ -37,7 +37,7 @@ class NewsInteractor {
         }
     }
 
-    func getDetailNews(id: Int, completion: Completion<NewsDetailResponse>? = nil) {
+    func getDetailNews(id: String, completion: Completion<NewsDetailResponse>? = nil) {
         // TODO: check cache
         networkClient.updateDetailNews(id: id) { [weak self] payload, error in
             guard let strongSelf = self,

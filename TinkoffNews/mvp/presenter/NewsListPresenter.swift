@@ -11,16 +11,16 @@ class NewsListPresenter: BasePresenter {
     var view: V!
     var controllerTitle: String = "Новости"
 
-    private var newInteractor: NewsInteractor!
+    private var newsInteractor: NewsInteractor!
     private var news: [News] = []
 
     required init(view: V) {
         self.view = view
     }
 
-    convenience init(view: NewsListView, newInteractor: NewsInteractor) {
+    convenience init(view: NewsListView, newsInteractor: NewsInteractor) {
         self.init(view: view)
-        self.newInteractor = newInteractor
+        self.newsInteractor = newsInteractor
     }
 
     func viewDidLoad() {
@@ -31,7 +31,7 @@ class NewsListPresenter: BasePresenter {
     }
 
     private func loadData(completion: @escaping () -> ()) {
-        newInteractor.getNewsList() { [weak self] response, error in
+        newsInteractor.getNewsList() { [weak self] response, error in
             guard let strongSelf = self else {
                 return
             }
@@ -49,6 +49,14 @@ class NewsListPresenter: BasePresenter {
         loadData() {
             self.view.hideRefreshLoader()
         }
+    }
+
+}
+
+extension NewsListPresenter: SelectCell {
+
+    func onCellSelected(indexPath: IndexPath) {
+        view.openDetailNews(id: news[indexPath.row].id)
     }
 
 }
