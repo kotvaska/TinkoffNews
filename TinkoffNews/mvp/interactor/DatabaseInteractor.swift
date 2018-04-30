@@ -62,8 +62,8 @@ class DatabaseInteractor {
         dbClient.update(tableName: NewsEntityMapped.tableName, news: news, completion: { e in completion?(e) })
     }
 
-    func clearAllData() {
-        dbClient.clearAllData(tableName: NewsEntityMapped.tableName, completion: { _ in })
+    func clearAllData(completion: @escaping (Error?) -> ()) {
+        dbClient.clearAllData(tableName: NewsEntityMapped.tableName, completion: completion)
     }
 
 }

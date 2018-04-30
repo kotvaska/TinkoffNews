@@ -25,13 +25,13 @@ class NewsListPresenter: BasePresenter {
 
     func viewDidLoad() {
         view.startLoading()
-        loadData() {
+        loadData(loadRequest: newsFacade.getNewsList) {
             self.view.finishLoading()
         }
     }
 
-    private func loadData(completion: @escaping () -> ()) {
-        newsFacade.getNewsList() { [weak self] models, error in
+    private func loadData(loadRequest: (Completion<[News]>?) -> (), completion: @escaping () -> ()) {
+        loadRequest() { [weak self] models, error in
             guard let strongSelf = self else {
                 return
             }
@@ -46,7 +46,7 @@ class NewsListPresenter: BasePresenter {
     }
 
     func refresh() {
-        loadData() {
+        loadData(loadRequest: newsFacade.updateNewsList) {
             self.view.hideRefreshLoader()
         }
     }

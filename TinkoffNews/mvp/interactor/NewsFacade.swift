@@ -25,17 +25,30 @@ class NewsFacade {
             }
 
             if news.isEmpty {
-                strongSelf.databaseInteractor.clearAllData()
-
-                strongSelf.newsInteractor.getNewsList() { response, error in
-                    strongSelf.databaseInteractor.save(news: response?.news ?? [], completion: nil)
-                    completion?(response?.news, error)
-                }
+                strongSelf.updateNewsList()
             } else {
                 completion?(news, error)
             }
         }
 
+    }
+
+    func updateNewsList(completion: Completion<[News]>? = nil) {
+        databaseInteractor.clearAllData() { [weak self] error in
+            guard let strongSelf = self, error == nil else {
+                completion?(nil, error)
+                return
+            }
+
+            strongSelf.newsInteractor.getNewsList() { response, error in
+                guard let response = response, error == nil else {
+                    completion?(nil, error)
+                    return
+                }
+                strongSelf.databaseInteractor.save(news: response.news, completion: nil)
+                completion?(response.news, error)
+            }
+        }
     }
 
     func getDetailNews(id: String, completion: Completion<News>? = nil) {
